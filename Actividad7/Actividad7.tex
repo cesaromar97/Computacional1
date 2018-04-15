@@ -1,0 +1,234 @@
+\documentclass[12pt]{article}
+\usepackage[a4paper]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{graphicx, wrapfig, subcaption, setspace, booktabs}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage[font=small, labelfont=bf]{caption}
+\usepackage[protrusion=true, expansion=true]{microtype}
+\usepackage[english]{babel}
+\usepackage{sectsty}
+\usepackage{url, lipsum}
+\usepackage[T1]{fontenc}
+\usepackage{icomma}
+\usepackage{siunitx}
+\usepackage{ragged2e}
+\usepackage{amsmath}
+\usepackage{comment}
+\usepackage{enumerate}
+\usepackage{anysize}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+\onehalfspacing
+\setcounter{tocdepth}{5}
+\setcounter{secnumdepth}{5}
+
+\begin{document}
+
+\begin{titlepage}
+
+\title{ \normalsize 
+        \begin{center}
+        \includegraphics[height=6cm]{Logo.jpg}
+        \end{center}
+        \LARGE \textsc{\textbf{Universidad De Sonora}} \\ \bigskip
+		\Large División de Ciencias Exactas y Naturales \\
+        Licenciatura En Física \\ \bigskip
+        \bigskip
+        Física Computacional I
+		\\ [0.1cm]  
+		\HRule{2pt} \\
+		\Large \textbf{{Reporte de Actividad 7}} \\
+        \textit{\textbf{"Sistema de Resortes Acoplados"}}
+		\HRule{2pt} \\
+		\normalsize \vspace*{0.001\baselineskip}}
+        
+\date{\bigskip \Large Hermosillo, Sonora  \hspace*{\fill}  Marzo 24 de 2018}
+
+        
+\author{
+		\Large\textbf{ César Omar Ramírez Álvarez} \\ \bigskip
+        \\ \bigskip
+       \Large Profr. Carlos Lizárraga Celaya}
+       \end{titlepage}
+       \maketitle
+       
+
+\newpage
+\pagestyle{plain}
+\section*{Continuación...}
+El presente informe es producto de la séptima práctica de Física Computacional I, en la que continuaremos con los ejemplos 3.1, 3.2, 3,.3 y 4.1 del artículo “Coupled Spring Equations” de los autores Fay y Graham.
+\subsection*{Añadiendo No Linealidad}
+Ahora las fuerzas restauradoras de los resortes no obedecen la Ley de Hooke, por ende, en este caso se debe modificar el modelo que se tiene. Contaremos con una nueva constante "$\mu$". El nuevo modelo queda de la siguiente manera:\\
+\centerline{$m_1 \ddot x_1 = -\delta \dot x_1 -k_1x_1 - k_2(x_1-x_2) + \mu_1 (x_1-x_2)^3$}
+\centerline{$m_2 \ddot x_2 = -\delta \dot x_2 -k_2(x_2-x_1) + \mu_2 (x_2-x_1)^3$} \\
+
+El rango de movimientos para el modelo no lineal es mucho más complicado que
+para el modelo lineal. Además, surgen preguntas de precisión al resolver estas ecuaciones. No se puede esperar que ningún solucionador numérico se mantenga preciso durante largos intervalos de tiempo. A continuación se presentan alguno ejemplos.\\
+
+
+\textbf{\textit{3.1 Asume $m_1=m_2=1$. Describe el movimiento para un sistema de resortes con $k_1=0.4$ y $k_2=1.808$, con coeficientes de amortiguamiento $\delta_1=0$ y $\delta_2=0$, coeficientes de no linealidad $\mu_1=-1/6$ y $\mu_2=-1/10$ con condiciones iniciales $(x_1(0), \dot x_1(0), x_2(0), \dot x_2(0))$=$(1,0,-1/2,0)$.}\\}
+
+A continuación, se presenta la sección de código utilizada para encontrar numéricamente los resultados con Python en Jupyter Lab. (La primera imagen es la misma para los ejemplos 3.1, 3.2 y 3.3) \\
+\begin{center}
+	\includegraphics[height=6cm]{3_1a.png}
+\end{center}
+\begin{center}
+    \includegraphics[height=17cm]{3_1b.png}
+\end{center}
+\begin{center}
+    \includegraphics[height=5cm]{3_1c.png}
+\end{center}
+\begin{center}
+    \includegraphics[height=3cm]{3_1d.png}\hspace*{\fill}
+    \includegraphics[height=3cm]{3_1e.png}
+\end{center}
+\begin{center}
+    \includegraphics[height=3cm]{3_1f.png}\hspace*{\fill}
+    \includegraphics[height=3cm]{3_1g.png}
+\end{center}
+\begin{center}
+    \includegraphics[height=3cm]{3_1h.png}\hspace*{\fill}
+    \includegraphics[height=3cm]{3_1i.png}
+\end{center}
+Las gráficas que se obtuvieron son:
+\begin{center}
+    \includegraphics[height=6cm]{G3_1a.png}\hspace*{\fill}
+    \includegraphics[height=6cm]{G3_1b.png}\\
+     \includegraphics[height=6cm]{G3_1c.png}\hspace*{\fill}
+    \includegraphics[height=6cm]{G3_1d.png}\\
+     \includegraphics[height=6cm]{G3_1e.png}\hspace*{\fill}
+    \includegraphics[height=6cm]{G3_1f.png}\\
+\end{center}
+De lo anterior es notorio que debido a la nolinealidad, el modelo parece ser más sensible a las condiciones iniciales, es decir, como no tenemos un amortiguamiento las oscilaciones se tornan casi periódicas, así al graficar $x_1$ con $x_2$ contra el tiempo, sus movimientos parecen estar fuera de fase.\\
+
+\textbf{ \textit{3.2 Asume $m_1=m_2=1$. Describe el movimiento para un sistema de resortes con $k_1=0.4$ y $k_2=1.808$, con coeficientes de amortiguamiento $\delta_1=0$ y $\delta_2=0$, coeficientes de no linealidad $\mu_1=-1/6$ y $\mu_2=-1/10$ con condiciones iniciales  $(x_1(0), \dot x_1(0), x_2(0), \dot x_2(0))$=$(-0.5,1/2,3.001,5.9)$.}\\}
+
+A continuación, se presenta la sección de código utilizada para encontrar numéricamente los resultados con Python en Jupyter Lab.
+\begin{center}
+    \includegraphics[height=9cm]{3_2aa.png}\\
+     \includegraphics[height=9cm]{3_2ab.png}\\
+\end{center}
+\begin{center}
+    \includegraphics[height=6cm]{3_2b.png}
+\end{center}
+\begin{center}
+    \includegraphics[height=3.5cm]{3_2c.png}\hspace*{\fill}
+    \includegraphics[height=3.5cm]{3_2d.png}\\
+     \includegraphics[height=3.5cm]{3_2e.png}
+\end{center}
+Las gráficas que se obtuvieron son:
+\begin{center}
+    \includegraphics[height=6cm]{G3_2a.png}\hspace*{\fill}
+    \includegraphics[height=6cm]{G3_2b.png}\\
+     \includegraphics[height=6cm]{G3_2c.png}
+\end{center}
+Observamos que con un simple cambio en las condiciones iniciales del modelo se muestra un gran cambio en las gráficas (es lo que cambia respecto al ejemplo anterior).\\
+
+\textbf{ \textit{3.3 Asume $m_1=m_2=1$. Describe el movimiento para un sistema de resortes con $k_1=0.4$ y $k_2=1.808$, con coeficientes de amortiguamiento $\delta_1=0$ y $\delta_2=0$, coeficientes de no lineales de $\mu_1=-1/6$ y $\mu_2=-1/10$ con condiciones iniciales de $(x_1(0), \dot x_1(0), x_2(0), \dot x_2(0))$=$(-0.6,1/2,3.001,5.9)$.}\\}
+
+Ahora observaremos el comportamiento en el que hay una diferencia de 0.1 en las condiciones inicales respecto al ejemplo anterior, es de esperar que se observe un gran cambio en las gráficas respecto a las anteriores.\\
+
+A continuación, se presenta la sección de código utilizada para encontrar numéricamente los resultados con Python en Jupyter Lab.
+\begin{center}
+    \includegraphics[height=17cm]{3_3a.png}\\
+\end{center}
+\begin{center}
+    \includegraphics[height=6cm]{3_3b.png}
+\end{center}
+\begin{center}
+    \includegraphics[height=3.5cm]{3_3c.png}\hspace*{\fill}
+    \includegraphics[height=3.5cm]{3_3d.png}\\
+     \includegraphics[height=3.5cm]{3_3e.png}
+\end{center}
+Las gráficas que se obtuvieron son:
+\begin{center}
+    \includegraphics[height=6cm]{G3_3a.png}\hspace*{\fill}
+    \includegraphics[height=6cm]{G3_3b.png}\\
+     \includegraphics[height=6cm]{G3_3c.png}
+\end{center}
+Como lo habiamos predecido, un breve cambio en las condiciones iniciales genera mucha diferencia en los productos de los sistemas no lineales.
+
+\subsection*{Añadiendo Forzamiento}
+Es una cuestión simple agregar forzamiento externo al modelo. De hecho, podemos manejar cada masa de manera diferente. Supongamos un forzamiento senoidal simple. Entonces el modelo se convierte en:\\
+\centerline{$m_1 \ddot x_1 = -\delta \dot x_1 -k_1x_1 - k_2(x_1-x_2) + \mu_1 (x_1-x_2)^3 + F_1 cos(\omega_1 t)$}
+\centerline{$m_2 \ddot x_2 = -\delta \dot x_2 -k_2(x_2-x_1) + \mu_2 (x_2-x_1)^3 + F_2 cos(\omega_2 t)$}\\
+
+El rango de movimientos para modelos forzados no lineales es bastante ampliO. Podemos esperar encontrar soluciones limitadas y sin límites (resonancia no lineal), soluciones periódicas que comparten el período con el forzamiento (llamadas soluciones armónicas) y las soluciones que son periódicas del período un múltiplo del período de conducción (llamadas soluciones subarmónicas), y las soluciones periódicas de estado Estacionario (ciclos límite en el plano de fase). Las condiciones bajo las cuales ocurren estos movimientos no son de ninguna manera fáciles de expresar. Concluimos con un simple ejemplo forzado.\\ 
+
+\textbf{\textit{4.1 Asume $m_1 = m_2 = 1$. Describe el movimiento para un sistema de resortes con $k_1=2/5$ y $k_2=1$, con coeficientes de amortiguamiento $\delta_1=1/10$ y $\delta_2=1/5$, coeficientes de no lineales de $\mu_1=1/6$ y $\mu_2=1/10$, fuerzas de amplitud de $F_1=1/3$ y $F_2=3/5$ y frecuencias de amplitud de $\omega_1=1$ y $\omega_2=3/5$ con condiciones iniciales de $(x_1(0), \dot x_1(0), x_2(0), \dot x_2(0))$=$(0.7,0,0.1,0)$.}\\}
+\begin{center}
+    \includegraphics[height=6cm]{4_1a.png}\\
+\end{center}
+\begin{center}
+    \includegraphics[height=17cm]{4_1b.png}
+\end{center}
+\begin{center}
+    \includegraphics[height=3.8cm]{4_1e.png}\hspace*{\fill}
+    \includegraphics[height=3.5cm]{4_1f.png}\\
+    \includegraphics[height=3.8cm]{4_1g.png}\hspace*{\fill}
+    \includegraphics[height=3.5cm]{4_1h.png}\\
+    \includegraphics[height=3.6cm]{4_1i.png}\hspace*{\fill}
+    \includegraphics[height=3.6cm]{4_1j.png}\\
+    \includegraphics[height=3.6cm]{4_1k.png}\hspace*{\fill}
+    \includegraphics[height=3.6cm]{4_1l.png}\\
+    \includegraphics[height=3.8cm]{4_1m.png}\hspace*{\fill}
+    \includegraphics[height=3.5cm]{4_1n.png}\\
+    \includegraphics[height=3.82cm]{4_1nn.png}\hspace*{\fill}
+    \includegraphics[height=3.5cm]{4_1o.png}\\
+\end{center}
+Como en este caso se hace uso de ciclos límite, fue necesario crear tres archivos con distitnto número de puntos y stoptime. En los códigos para generar las gráficas se nota cual de los archivos se usó.
+\newpage
+
+Las gráficas que se obtuvieron son:
+\begin{center}
+    \includegraphics[height=6cm]{G4_1a.png}\hspace*{\fill}
+    \includegraphics[height=6cm]{G4_1b.png}\\
+     \includegraphics[height=6cm]{G4_1c.png}\hspace*{\fill}
+    \includegraphics[height=6cm]{G4_1d.png}\\
+     \includegraphics[height=6cm]{G4_1e.png}\hspace*{\fill}
+    \includegraphics[height=6cm]{G4_1f.png}\\
+      \includegraphics[height=6cm]{G4_1g.png}\hspace*{\fill}
+    \includegraphics[height=6cm]{G4_1h.png}\\
+\end{center}
+Con la existencia de un coeficiente de amortiguamiento, para valores de tiempo pequeños hay movimiento variable, pero para valores grandes del tiempo se torna un movimiento constante.Notorio en las graficas de ciclo límite.\\
+
+\section*{Conclusión}
+
+Hemos desarrollado un modelo simple para dos resortes acoplados, hemos examinado tanto el caso lineal como una forma posible para el caso no lineal, y hemos incluido ejemplos de movimiento libre, movimiento amortiguado y movimiento forzado.\\
+
+El modelo tiene muchas características que permiten la introducción significativa de muchos conceptos que incluyen: precisión de algoritmos numéricos, dependencia de parámetros y condiciones iniciales, fase y sincronización, periodicidad, tiempos, ciclos límite, soluciones armónicas y subarmónicas. \\
+
+Con la finalización del total de ejmplos presentados en el artículo nos podemos percatar de lo interesante que es el temas, además de las ventajas con las que cuenta Phyton para resolver este tipo de ejercicios.\\
+
+Podemos finalizar diciendo que Phyton y sus bibliotecas son buenas alternativas cuando se quiere resolver problemas que involucren soluciones numéricas, pues aunque se mencionaba que era difícil en el artículo llegar a soluciones, con ayuda de Phyton se lograron reproducir todas las gráficas, es una herramienta en quién confiar. 
+\newpage
+\section*{Bibliografía}
+\begin{itemize}
+\item Integration and ODEs (scipy.integrate) — SciPy v1.0.0 Reference Guide. (2018). Docs.scipy.org. Recuperado el 21 de Marzo de 2018 desde\\
+https://docs.scipy.org/doc/scipy/reference/integrate.html
+\item  JupyterLab Documentation — JupyterLab 1.0 Beta documentation. (2018). Jupyterlab.readthedocs.io.  Recuperado el 21 de Marzo de 2018 desde \\
+http://jupyterlab.readthedocs.io/en/latest/
+\item Coupled spring-mass system — SciPy Cookbook documentation. (2018). Scipy-cookbook.readthedocs.io. Recuperado el 21 de Marzo de 2018 desde\\
+http://scipy-cookbook.readthedocs.io/items/CoupledSpringMassSystem.html
+\end{itemize}
+
+\section*{Apéndice}
+\begin{enumerate}
+\item ¿Qué más te llama la atención de la actividad completa? ¿Que se te hizo menos interesante?\\
+\textit{Me gustó todo, pero fue bastante agradable que las gráficas me salieran tal cual el documuento, es una sensacion de satisfación. Podría decir no hubo nada que no me interesó.}
+
+\item ¿De un sistema de masas acopladas como se trabaja en esta actividad, hubieras pensado que abre toda una nueva área de fenómenos no lineales?\\
+\textit{La verdad no me lo imaginaba, pues estamos acostumbrados a verlos "bien comportados", pero el hecho de tratar este tipo de problemas con soluciones numéricas es muy interesante.}
+
+\item ¿Qué propondrías para mejorar esta actividad? ¿Te ha parecido interesante este reto? \\
+\textit{Fue muy interesante trabajar con estos temas, pero como mejora me gustaria más referencias para apoyarnos, sobre todo en los últimos dos temas.}
+
+\item ¿Quisieras estudiar mas este tipo de fenómenos no lineales?\\
+\textit{Estaría bien, ya que es muy interesante todo lo que se puede desglozar de ellos.}
+
+\end{enumerate}
+
+\end{document}
